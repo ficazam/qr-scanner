@@ -10,6 +10,8 @@ const phrases = [
   "Pendejo el que lea.",
   "Jaja, caíste.",
   "Gracias pero tengo novia :)",
+  "Los bobos no se resfrían.",
+    ""
 ];
 
 app.use(bp.json());
