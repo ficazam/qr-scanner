@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ENTRA PARA VER</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body style="padding: 0; margin: 0">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <main style="height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #FCFCFC; background-color: #1E1E1E;">
+            <h1 id="phrase"></h1>
+            <a href="https://felipeicaza.dev" style="text-decoration: underline; color: inherit;">Si caíste, ven a mi sitio y conoce más sobre mi!</a>
+        </main>
+
+        <script>
+            const phrases = <%- JSON.stringify(phrases) %>;
+    
+            document.addEventListener("DOMContentLoaded", () => {
+                const phraseElement = document.getElementById("phrase");
+                const randomIndex = Math.floor(Math.random() * phrases.length);
+                phraseElement.textContent = phrases[randomIndex];
+            });
+        </script>
+
+    </body>
+</html>
