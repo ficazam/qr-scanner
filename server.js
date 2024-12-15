@@ -29,6 +29,8 @@ const transp = nm.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
   secure: true,
+  logger: true,
+  ignoreTLS: true,
   auth: {
     user: emailCredentials.email,
     pass: emailCredentials.password,
