@@ -15,7 +15,7 @@ const phrases = [
 
 app.use(bp.json());
 app.use(express.static("public"));
-app.set("views", "./views");
+app.set("views", __dirname + "./views");
 app.set("view engine", "ejs");
 
 const emailCredentials = {
@@ -69,3 +69,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => console.log("App is running on port ", PORT));
+
+module.exports = app
