@@ -15,7 +15,7 @@ const phrases = [
 
 app.use(bp.json());
 app.use(express.static("public"));
-app.set("views", __dirname + "./views");
+app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
 const emailCredentials = {
