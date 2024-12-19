@@ -27,7 +27,7 @@ const emailCredentials = {
 const transp = nm.createTransport({
   service: emailCredentials.service,
   host: 'smtp.gmail.com',
-  port: 465,
+  port: 587,
   secure: true,
   logger: true,
   ignoreTLS: true,
@@ -38,6 +38,11 @@ const transp = nm.createTransport({
 });
 
 const sendEmailNotification = (visitorItem) => {
+  if (!emailCredentials.email || !emailCredentials.password || !emailCredentials.service) {
+    console.error("ENVIRONMENT ERROR")
+    console.log(emailCredentials)
+  }
+  
   const mailOptions = {
     from: emailCredentials.email,
     to: emailCredentials.email,
