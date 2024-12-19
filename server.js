@@ -54,7 +54,7 @@ const sendEmailNotification = async (visitorItem) => {
       Priority: "urgent",
     },
     text: `Someone scanned your QR code! These are the details: \n
-        - Visitor IP Address: ${req.headers["x-forwarded-for"] || req.ip}
+        - Visitor IP Address: ${visitorItem.ip}
         - User Details: ${visitorItem.user}
         - Visitor's language: ${visitorItem.language}
         - Visit time: ${visitorItem.time}
@@ -69,7 +69,7 @@ const sendEmailNotification = async (visitorItem) => {
 
 app.get("/", (req, res) => {
   const visitorItem = {
-    ip: req.ip,
+    ip: req.headers["x-forwarded-for"] || req.ip,
     user: req.headers["user-agent"],
     language: req.headers["accept-language"],
     time: new Date().toLocaleDateString(),
