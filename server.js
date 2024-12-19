@@ -27,17 +27,18 @@ const emailCredentials = {
 const transp = nm.createTransport({
   service: emailCredentials.service,
   host: 'smtp.gmail.com',
-  port: 587,
+  port: 465,
   secure: true,
   logger: true,
-  ignoreTLS: true,
+  debug: true,
+  ignoreTLS: false,
   auth: {
     user: emailCredentials.email,
     pass: emailCredentials.password,
   },
 });
 
-const sendEmailNotification = (visitorItem) => {
+const sendEmailNotification = async (visitorItem) => {
   if (!emailCredentials.email || !emailCredentials.password || !emailCredentials.service) {
     console.error("ENVIRONMENT ERROR")
     console.log(emailCredentials)
@@ -53,17 +54,17 @@ const sendEmailNotification = (visitorItem) => {
       Priority: "urgent",
     },
     text: `Someone scanned your QR code! These are the details: \n
-        - Visitor IP Address: ${visitorItem.ip}
+        - Visitor IP Address: ${req.headers["x-forwarded-for"] || req.ip}
         - User Details: ${visitorItem.user}
         - Visitor's language: ${visitorItem.language}
         - Visit time: ${visitorItem.time}
     `,
   };
 
-  transp.sendMail(mailOptions, (error, info) => {
-    if (error) return console.error("error sending" + error);
-    return console.log("email sent: " + info.response);
-  });
+  const { error, info } = await transp.sendMail(mailOptions)
+
+  if (error) return console.error("error sending" + error);
+  return console.log("email sent: " + info);
 };
 
 app.get("/", (req, res) => {
