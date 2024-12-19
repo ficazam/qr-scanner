@@ -61,10 +61,10 @@ const sendEmailNotification = async (visitorItem) => {
     `,
   };
 
-  const { error, info } = await transp.sendMail(mailOptions)
-
-  if (error) return console.error("error sending" + error);
-  return console.log("email sent: " + info);
+  transp.sendMail(mailOptions, (info, error) => {
+    if (error) return console.error("error sending" + error);
+    return console.log("email sent: " + info.response);  
+  })
 };
 
 app.get("/", (req, res) => {
