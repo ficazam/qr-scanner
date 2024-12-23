@@ -1,7 +1,7 @@
 const express = require("express");
 const bp = require("body-parser");
 const nm = require("nodemailer");
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,7 +26,7 @@ const emailCredentials = {
 
 const transp = nm.createTransport({
   service: emailCredentials.service,
-  host: 'smtp.gmail.com',
+  host: "smtp.gmail.com",
   port: 465,
   secure: true,
   logger: true,
@@ -39,11 +39,15 @@ const transp = nm.createTransport({
 });
 
 const sendEmailNotification = async (visitorItem) => {
-  if (!emailCredentials.email || !emailCredentials.password || !emailCredentials.service) {
-    console.error("ENVIRONMENT ERROR")
-    console.log(emailCredentials)
+  if (
+    !emailCredentials.email ||
+    !emailCredentials.password ||
+    !emailCredentials.service
+  ) {
+    console.error("ENVIRONMENT ERROR");
+    console.log(emailCredentials);
   }
-  
+
   const mailOptions = {
     from: emailCredentials.email,
     to: emailCredentials.email,
@@ -61,10 +65,17 @@ const sendEmailNotification = async (visitorItem) => {
     `,
   };
 
-  await new Promise ((resolve, reject) => transp.sendMail(mailOptions, (info, error) => {
-    if (error) return console.error("error sending" + error);
-    return console.log("email sent: " + info.response);  
-  }))
+  await new Promise((resolve, reject) =>
+    transp.sendMail(mailOptions, (info, error) => {
+      if (error) {
+        console.error("error sending" + error);
+        reject(error);
+      } else {
+        console.log("email sent: " + info.response);
+        resolve(info);
+      }
+    })
+  );
 };
 
 app.get("/", (req, res) => {
@@ -81,4 +92,4 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => console.log("App is running on port ", PORT));
 
-module.exports = app
+module.exports = app;
