@@ -18,27 +18,13 @@ app.use(express.static("public"));
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
-const emailCredentials = {
-  email: process.env.EMAIL,
-  password: process.env.PASSWORD,
-  service: process.env.SERVICE,
-};
-
-const transp = nm.createTransport({
-  service: emailCredentials.service,
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  logger: true,
-  debug: true,
-  ignoreTLS: false,
-  auth: {
-    user: emailCredentials.email,
-    pass: emailCredentials.password,
-  },
-});
-
 const sendEmailNotification = async (visitorItem) => {
+  const emailCredentials = {
+    email: process.env.EMAIL,
+    password: process.env.PASSWORD,
+    service: process.env.SERVICE,
+  };
+
   if (
     !emailCredentials.email ||
     !emailCredentials.password ||
@@ -47,6 +33,20 @@ const sendEmailNotification = async (visitorItem) => {
     console.error("ENVIRONMENT ERROR");
     console.log(emailCredentials);
   }
+
+  const transp = nm.createTransport({
+    service: emailCredentials.service,
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    logger: true,
+    debug: true,
+    ignoreTLS: false,
+    auth: {
+      user: emailCredentials.email,
+      pass: emailCredentials.password,
+    },
+  });
 
   const mailOptions = {
     from: emailCredentials.email,
@@ -66,8 +66,8 @@ const sendEmailNotification = async (visitorItem) => {
   };
 
   const info = await transp.sendMail(mailOptions);
-  console.log("FELIPE")
-  console.log("info", info)
+  console.log("FELIPE");
+  console.log("info", info);
 };
 
 app.get("/", (req, res) => {
