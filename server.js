@@ -65,14 +65,9 @@ const sendEmailNotification = async (visitorItem) => {
     `,
   };
 
-  await new Promise(async (resolve, reject) => {
-    try {
-      await transp.sendMail(mailOptions);
-      resolve();
-    } catch (error) {
-      reject("Could not send emails")
-    }
-  });
+  const info = await transp.sendMail(mailOptions);
+  console.log("FELIPE")
+  console.log("info", info)
 };
 
 app.get("/", (req, res) => {
