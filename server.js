@@ -65,17 +65,14 @@ const sendEmailNotification = async (visitorItem) => {
     `,
   };
 
-  await new Promise((resolve, reject) =>
-    transp.sendMail(mailOptions, (info, error) => {
-      if (error) {
-        console.error("error sending" + error);
-        reject(error);
-      } else {
-        console.log("email sent: " + info.response);
-        resolve(info);
-      }
-    })
-  );
+  await new Promise(async (resolve, reject) => {
+    try {
+      await transp.sendMail(mailOptions);
+      resolve();
+    } catch (error) {
+      reject("Could not send emails")
+    }
+  });
 };
 
 app.get("/", (req, res) => {
